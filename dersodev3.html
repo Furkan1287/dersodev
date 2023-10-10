@@ -51,7 +51,7 @@
 
             lateOrders.forEach(order => {
               const liElement = document.createElement('li'); 
-              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Geciken Sipariş, Required Date: ' + order.requiredDate + ', Shipped Date: ' + order.shippedDate; // Bilgileri <li> içine yazdır
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Geciken Sipariş, Required Date: ' + order.requiredDate + ', Shipped Date: ' + order.shippedDate; 
               ulElementLate.appendChild(liElement); 
             });
 
