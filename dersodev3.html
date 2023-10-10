@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siparişler</title>
+</head>
+<body>
+    <h1>1996 Yılına Ait Siparişler</h1>
+    <ul id="orders1996"></ul>
+
+    <h1>Geciken Siparişler</h1>
+    <ul id="lateOrders"></ul>
+
+    <p id="lateOrderCount"></p>
+
+    <script>
+       
+        fetch('https://northwind.vercel.app/api/orders')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('HTTP Hatası! ' + response.status);
+            }
+            return response.json(); 
+          })
+          .then(orders => {
+            const ulElement1996 = document.getElementById('orders1996'); 
+            const ulElementLate = document.getElementById('lateOrders'); 
+            const countElement = document.getElementById('lateOrderCount'); 
+
+            
+            const currentDate = new Date();
+
+            
+            const orders1996 = orders.filter(order => {
+              const orderDate = new Date(order.orderDate); 
+              return orderDate.getFullYear() === 1996;
+            });
+
+            const lateOrders = orders.filter(order => {
+              const requiredDate = new Date(order.requiredDate); 
+              const shippedDate = new Date(order.shippedDate); 
+
+              return shippedDate > requiredDate;
+            });
+
+            orders1996.forEach(order => {
+              const liElement = document.createElement('li'); 
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Sipariş Tarihi: ' + order.orderDate; 
+            });
+
+            lateOrders.forEach(order => {
+              const liElement = document.createElement('li'); 
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Geciken Sipariş, Required Date: ' + order.requiredDate + ', Shipped Date: ' + order.shippedDate; // Bilgileri <li> içine yazdır
+              ulElementLate.appendChild(liElement); 
+            });
+
+            const lateOrderCount = lateOrders.length;
+            countElement.textContent = 'Toplam ' + lateOrderCount + ' sipariş gecikmiştir.';
+          })
+          .catch(error => {
+            console.error('Hata:', error);
+          });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA Siparişleri</title>
+</head>
+<body>
+    <h1>USA Siparişleri</h1>
+    <ul id="usaOrders"></ul>
+
+    <script>
+       
+        fetch('https://northwind.vercel.app/api/orders')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('HTTP Hatası! ' + response.status);
+            }
+            return response.json(); 
+          })
+          .then(orders => {
+            
+            const usaOrders = orders.filter(order => order.shipAddress.country === 'USA');
+            
+            const ulElement = document.getElementById('usaOrders'); 
+
+            
+            usaOrders.forEach(order => {
+              const liElement = document.createElement('li'); 
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId; 
+              ulElement.appendChild(liElement); 
+            });
+          })
+          .catch(error => {
+            console.error('Hata:', error);
+          });
+    </script>
+</body>
+</html>
