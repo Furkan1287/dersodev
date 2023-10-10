@@ -15,7 +15,7 @@
     <p id="lateOrderCount"></p>
 
     <script>
-       
+        
         fetch('https://northwind.vercel.app/api/orders')
           .then(response => {
             if (!response.ok) {
@@ -28,12 +28,10 @@
             const ulElementLate = document.getElementById('lateOrders'); 
             const countElement = document.getElementById('lateOrderCount'); 
 
-            
             const currentDate = new Date();
 
-            
             const orders1996 = orders.filter(order => {
-              const orderDate = new Date(order.orderDate); 
+              const orderDate = new Date(order.orderDate);
               return orderDate.getFullYear() === 1996;
             });
 
@@ -41,17 +39,20 @@
               const requiredDate = new Date(order.requiredDate); 
               const shippedDate = new Date(order.shippedDate); 
 
+              
               return shippedDate > requiredDate;
             });
 
+           
             orders1996.forEach(order => {
               const liElement = document.createElement('li'); 
-              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Sipariş Tarihi: ' + order.orderDate; 
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Sipariş Tarihi: ' + order.orderDate; // Bilgileri <li> içine yazdır
+              ulElement1996.appendChild(liElement); 
             });
 
             lateOrders.forEach(order => {
               const liElement = document.createElement('li'); 
-              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Geciken Sipariş, Required Date: ' + order.requiredDate + ', Shipped Date: ' + order.shippedDate; 
+              liElement.textContent = 'Sipariş ID: ' + order.id + ', Müşteri ID: ' + order.customerId + ', Geciken Sipariş, Required Date: ' + order.requiredDate + ', Shipped Date: ' + order.shippedDate; // Bilgileri <li> içine yazdır
               ulElementLate.appendChild(liElement); 
             });
 
